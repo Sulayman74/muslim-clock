@@ -1,0 +1,8 @@
+{
+  "appId": "com.clock.app",
+  "appName": "MuslimClock",
+  "webDir": "www",
+  "server": {
+    "iosScheme": "capacitor"
+  }
+}

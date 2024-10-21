@@ -1,0 +1,73 @@
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+  width: 100%;
+  text-align: center;
+  background-color: #000000;
+  font-family: Arial, sans-serif;
+  color: whitesmoke;
+
+}
+
+.clock-container {
+margin: 0 auto; /* Centrer le conteneur */
+display: flex;
+justify-content: center;
+align-items: center;
+width: 60%;
+height: 100%;
+}
+#clock{
+  font-size: 5rem;
+}
+
+#time-until-prayer .counter-until-prayer{
+font-size: 1.5rem;
+}
+
+#city{
+  font-size: 2rem;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+#prayer-times{
+font-size: 2.5rem;
+
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background-color: #333;
+  padding: 1rem;
+  width: 100%;
+}
+
+.nav-btn {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  flex-grow: 1;
+  text-align: center;
+  padding: 10px;
+  font-size: x-large;
+}
+
+.nav-btn.active {
+  background-color: #3612d5;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .clock-container {
+      flex-direction: column; /* Affichage en colonne sur les petits écrans */
+      align-items: center; /* Centrer les éléments en colonne */
+  }
+}

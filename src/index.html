@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horloge avec Heures de Prière</title>
+    <link rel="stylesheet" href="style.css"> <!-- Lien vers le fichier CSS -->
+    <!-- <script defer type="module" src="index.js"></script> -->
+</head>
+
+<body>
+    <div class="clock-container">
+        <div id="time-container">
+
+            <div id="clock" class="clock"></div>
+            <div id="time-until-prayer"></div>
+        </div>
+
+        <div id="salat-container" class="hidden">
+            <div id="city"></div>
+            <div id="prayer-times"></div>
+        </div>
+        <div id="weather-container" class="hidden">
+            <h2>Météo</h2>
+            <div id="weather-forecast"></div>
+        </div>
+    </div>
+    <div class="bottom-nav">
+        <button id="btn-clock" class="nav-btn active">Horloge</button>
+        <button id="btn-prayers" class="nav-btn">Heures de Prières</button>
+        <button id="btn-weather" class="nav-btn">Météo</button>
+    </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
