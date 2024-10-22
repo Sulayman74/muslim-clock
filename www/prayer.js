@@ -10,7 +10,7 @@ export async function getPrayerTimes(latitude, longitude) {
         .then(data => {
             prayerTimes = data.data.timings;
             displayPrayerTimes(prayerTimes);
-            calculateTimeUntilNextPrayer(); 
+            calculateTimeUntilNextPrayer();
         })
         .catch(error => {
             console.error('Erreur lors de la récupération des heures de prière:', error);
@@ -34,7 +34,9 @@ export function calculateTimeUntilNextPrayer() {
     const now = new Date();
     const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
     let nextPrayerTimeInSeconds = null;
+    let timeUntilNextPrayer;
     nextPrayerName = '';
+
 
     const prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
     for (const prayer of prayerNames) {
@@ -53,14 +55,30 @@ export function calculateTimeUntilNextPrayer() {
     }
 
     if (nextPrayerTimeInSeconds !== null) {
-        const timeUntilNextPrayer = nextPrayerTimeInSeconds - currentTimeInSeconds;
-        const hoursUntilNextPrayer = Math.floor(timeUntilNextPrayer / 3600);
-        const minutesUntilNextPrayer = Math.floor((timeUntilNextPrayer % 3600) / 60);
-        const secondsUntilNextPrayer = timeUntilNextPrayer % 60;
+        timeUntilNextPrayer = nextPrayerTimeInSeconds - currentTimeInSeconds;
+        const hoursUntilNextPrayer = String(Math.floor(timeUntilNextPrayer / 3600)).padStart(2, '0');
+        const minutesUntilNextPrayer = String(Math.floor((timeUntilNextPrayer % 3600) / 60)).padStart(2, '0');
+        const secondsUntilNextPrayer = String(timeUntilNextPrayer % 60).padStart(2, '0');
+        if (timeUntilNextPrayer <= 0) {
 
+            const timeUntilPrayerElement = document.getElementById('time-until-prayer');
+            timeUntilPrayerElement.innerHTML = `
+            <p class="title-until-prayer">La prière <span id="next-prayer">${nextPrayerName}</span> est MAINTENANT.</p>`;
+
+            // Ajouter la classe "blinking" pour faire clignoter le message
+            timeUntilPrayerElement.classList.add('blinking');
+            setTimeout(() => {
+                timeUntilPrayerElement.classList.remove('blinking');
+                timeUntilPrayerElement.innerHTML = ''; // Vous pouvez aussi afficher un autre message ici si nécessaire
+            }, 5000); // 5000 millisecondes = 5 secondes
+
+            return; // On arrête la mise à jour ici si le temps est écoulé
+
+
+        }
         document.getElementById('time-until-prayer').innerHTML = `
-            <p class="title-until-prayer">Temps jusqu'à la prochaine prière (${nextPrayerName}) :</p>
-            <p class="counter-until-prayer">${hoursUntilNextPrayer} heures, ${minutesUntilNextPrayer} minutes et ${secondsUntilNextPrayer} secondes</p>
+            <p class="title-until-prayer">La prochaine prière dans <span id="next-prayer"> ${nextPrayerName}</span>  </p>
+            <p class="counter-until-prayer">${hoursUntilNextPrayer} : ${minutesUntilNextPrayer} : ${secondsUntilNextPrayer}</p>
         `;
     } else {
         document.getElementById('time-until-prayer').innerHTML = `

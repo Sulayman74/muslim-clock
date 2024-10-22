@@ -1,31 +1,67 @@
+/* Ajoutez cette partie dans votre fichier CSS */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 body {
+  height: 100svh;
+  width: 100%;
+  background-color: #000000;
+  font-family: Arial, sans-serif;
+  color: whitesmoke;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.blinking {
+  animation: blink 1s infinite; /* Clignote toutes les secondes */
+}
+
+.clock-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100svh;
-  width: 100%;
+  height: 100%;
   text-align: center;
   background-color: #000000;
   font-family: Arial, sans-serif;
   color: whitesmoke;
   overflow: hidden;
 }
+.title {
+  text-transform: uppercase;
+  font-size: larger;
+  margin: 0;
+}
 
-.clock-container {
-  margin: 0 auto; /* Centrer le conteneur */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
-  height: 100%;
+#time-container {
+  background-color: #3612d5;
+  width: 90%;
+  padding: 1rem;
+  border-radius: 1rem;
 }
 #clock {
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
+#time-until-prayer,
 #time-until-prayer .counter-until-prayer {
   font-size: 1.5rem;
+}
+
+#next-prayer {
+  text-transform: uppercase;
 }
 
 #city {
@@ -34,21 +70,59 @@ body {
 }
 
 #prayer-times {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
 }
 
-#weather-forecast{
-  font-size: 1rem;
-  text-align: center;
-  
+#weather-container {
+  background-color: #3612d5;
+  width: 90%;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 4rem;
+}
+#weather-forecast {
+  border-radius: 1rem;
+  padding: 2px;
+}
+
+/* Stylisation de la card météo */
+.weather-card {
+  background-color: #f0f0f0;
+  border-radius: 12px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.weather-card:hover {
+  transform: translateY(-5px);
+}
+
+.weather-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.weather-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+.weather-card img {
+  margin-top: 10px;
 }
 
 .bottom-nav {
   display: flex;
   justify-content: space-around;
   background-color: #333;
-  padding: 1rem;
   width: 100%;
+  height: 8%;
+  position: absolute;
+  bottom: 0;
+  padding: 1px 5px;
 }
 
 .nav-btn {
@@ -58,11 +132,14 @@ body {
   cursor: pointer;
   flex-grow: 1;
   text-align: center;
-  padding: 10px;
-  font-size: 1rem;
+  padding: auto;
+  font-size: x-large;
 }
 
 .nav-btn.active {
+  border-radius: 2rem;
+  box-shadow: wheat;
+  width: 35%;
   background-color: #3612d5;
 }
 
