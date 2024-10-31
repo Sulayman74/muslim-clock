@@ -37,7 +37,3 @@ export function updateClock() {
     requestAnimationFrame(updateClock);
 }
 
-//pour que l'horloge soit plus exacte
-requestAnimationFrame(updateClock);
-
-

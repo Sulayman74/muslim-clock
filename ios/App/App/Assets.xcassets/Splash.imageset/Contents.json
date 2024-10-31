@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "K-2.png",
+      "filename" : "K.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "K-2 1.png",
+      "filename" : "K 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "K-2 2.png",
+      "filename" : "K 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

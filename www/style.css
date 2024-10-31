@@ -1,4 +1,5 @@
 /* Ajoutez cette partie dans votre fichier CSS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
 @keyframes blink {
   0% {
     opacity: 1;
@@ -11,16 +12,20 @@
   }
 }
 
-body {
-  height: 100svh;
+html, body {
+  height: 100%;
   width: 100%;
-  background-color: #000000;
-  font-family: Arial, sans-serif;
-  color: whitesmoke;
-  overflow: hidden;
-  position: relative;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+body {
+  background-color: white;
+  color: black;
+  font-family: "Poppins",sans-serif;
+  position: relative;
+  transition: all 0.5s ease-out; 
+
 }
 
 .blinking {
@@ -32,27 +37,44 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 80%;
   text-align: center;
-  background-color: #000000;
-  font-family: Arial, sans-serif;
-  color: whitesmoke;
   overflow: hidden;
 }
 .title {
   text-transform: uppercase;
   font-size: larger;
+  font-weight: bold;
   margin: 0;
+
 }
 
 #time-container {
   background-color: #3612d5;
+  color: white;
   width: 90%;
   padding: 1rem;
+  margin-top: 10px;
   border-radius: 1rem;
+  font-family: 'Roboto Mono', monospace;
 }
 #clock {
   font-size: 4rem;
+}
+
+#salat-container{
+  overflow-y: scroll;
+}
+
+#salat-container h5 {
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+#salat-container p {
+  line-height: normal;
+  padding: 0;
+  margin: 0;
 }
 
 #time-until-prayer,
@@ -62,11 +84,15 @@ body {
 
 #next-prayer {
   text-transform: uppercase;
+  font-weight: 800;
 }
 
 #city {
   font-size: 2rem;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  filter: drop-shadow(#937fef 4px 3px 1px);
+  padding: 0;
+  margin: 0;
 }
 
 #prayer-times {
@@ -74,24 +100,39 @@ body {
 }
 
 #weather-container {
-  background-color: #3612d5;
-  width: 90%;
+  width: 100%;
+  height: 100%;
   padding: 1rem;
   border-radius: 1rem;
-  margin-bottom: 4rem;
+  overflow-y: scroll;
+
 }
+
 #weather-forecast {
   border-radius: 1rem;
   padding: 2px;
 }
 
+#prayer-times p {
+  margin: 8px 0;
+  font-size: 1.2em;
+}
+
+.highlight-next-prayer {
+  color: #1e90ff; /* Couleur pour mettre en avant la prochaine prière */
+  font-weight: bold;
+  font-size: 1.3em;
+  transition: color 0.3s ease, font-size 0.3s ease;
+}
+
 /* Stylisation de la card météo */
 .weather-card {
-  background-color: #f0f0f0;
-  border-radius: 12px;
-  padding: 15px;
+  background-color: #3612d5;
+  color: white;
+  border-radius: 8px;
+  padding: 5px;
   margin: 10px 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 4px 3px black;
   transition: transform 0.3s ease;
 }
 
@@ -102,15 +143,103 @@ body {
 .weather-card h3 {
   margin-bottom: 10px;
   font-size: 1.2em;
-  color: #333;
+  font-weight: 600;
 }
 
 .weather-card p {
   margin: 5px 0;
-  color: #555;
 }
 
 .weather-card img {
+  width: 30%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: black 2px 2px 2px;
+}
+
+#compass {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+#compass-circle {
+  width: 200px;
+  height: 200px;
+  border: 5px solid #3612d5;
+  border-radius: 50%;
+  position: relative;
+}
+
+#compass-circle::before {
+  content: "N";
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#compass-circle::after {
+  content: "S";
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#compass-circle .east {
+  content: "E";
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#compass-circle .west {
+  content: "W";
+  position: absolute;
+  left: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#direction-arrow {
+  width: 10px;
+  height: 80px;
+  background-color: #3612d5;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: bottom center;
+  transform: translate(-50%, -100%) rotate(0deg);
+  border-radius: 5px;
+}
+
+#direction-arrow::after {
+  content: "";
+  position: absolute;
+  bottom: 100%; /* Positionne la pointe en haut du bout de la flèche */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 10px solid red; /* Couleur de la pointe */
+}
+
+#qiblah-angle {
+  font-size: 18px;
   margin-top: 10px;
 }
 
@@ -132,19 +261,69 @@ body {
   cursor: pointer;
   flex-grow: 1;
   text-align: center;
-  padding: auto;
+  padding: 0.75rem;
   font-size: x-large;
 }
 
 .nav-btn.active {
-  border-radius: 2rem;
-  box-shadow: wheat;
-  width: 35%;
+  border-radius: 0.75rem;
+  box-shadow: black 3px 1px 6px;
+  width: 80%;
   background-color: #3612d5;
 }
 
 .hidden {
   display: none;
+}
+/* Container for the toggle button */
+.toggle-container {
+  margin: 2rem;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+/* Common styles for both icons */
+.material-icons {
+  font-size: 2rem; /* Size of the toggle button */
+  cursor: pointer;
+  transition: all 0.5s ease-out ; /* Smooth opacity transition */
+  position: absolute;
+}
+
+/* Hidden by default */
+.hidden {
+  opacity: 0;
+  pointer-events: none; /* Prevent clicking on hidden element */
+}
+
+/* Visible state */
+.visible {
+  opacity: 1;
+}
+
+/* Icon off - shown initially */
+.toggle_off {
+  color: black; /* Red color for "off" */
+}
+
+/* Icon on - hidden initially */
+.toggle_on {
+  color: white; /* Green color for "on" */
+}
+
+.dark-mode {
+  background-color: black;
+  color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+      background-color: black;
+      color: white;
+  }
 }
 
 @media (max-width: 600px) {

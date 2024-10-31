@@ -8,6 +8,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Ajouter un délai avant de lancer l'interface principale
+               Thread.sleep(forTimeInterval: 3.0) // 3 secondes de délai
         return true
     }
 

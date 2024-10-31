@@ -10,7 +10,6 @@ export async function getPrayerTimes(latitude, longitude) {
         .then(data => {
             prayerTimes = data.data.timings;
             displayPrayerTimes(prayerTimes);
-            calculateTimeUntilNextPrayer();
         })
         .catch(error => {
             console.error('Erreur lors de la récupération des heures de prière:', error);
@@ -18,25 +17,27 @@ export async function getPrayerTimes(latitude, longitude) {
 }
 
 export function displayPrayerTimes(prayerTimes) {
+
     const prayerTimesHtml = `
         <h5>Heures de Prière</h5>
-        <p class="prayer-name">Fajr : ${prayerTimes.Fajr}</p>
-        <p class="prayer-name">Dhuhr : ${prayerTimes.Dhuhr}</p>
-        <p class="prayer-name">Asr : ${prayerTimes.Asr}</p>
-        <p class="prayer-name">Maghrib : ${prayerTimes.Maghrib}</p>
-        <p class="prayer-name">Isha : ${prayerTimes.Isha}</p>
+        <p id="prayer-Fajr">Fajr : ${prayerTimes.Fajr}</p>
+        <p id="prayer-Dhuhr">Dhuhr : ${prayerTimes.Dhuhr}</p>
+        <p id="prayer-Asr">Asr : ${prayerTimes.Asr}</p>
+        <p id="prayer-Maghrib">Maghrib : ${prayerTimes.Maghrib}</p>
+        <p id="prayer-Isha">Isha : ${prayerTimes.Isha}</p>
     `;
     document.getElementById('prayer-times').innerHTML = prayerTimesHtml;
 }
 
 // Permet de calculer le temps restant avant la prochaine prière
 export function calculateTimeUntilNextPrayer() {
+
     const now = new Date();
     const currentTimeInSeconds = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
     let nextPrayerTimeInSeconds = null;
     let timeUntilNextPrayer;
+    const timeUntilPrayerElement = document.getElementById('time-until-prayer');
     nextPrayerName = '';
-
 
     const prayerNames = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
     for (const prayer of prayerNames) {
@@ -53,17 +54,24 @@ export function calculateTimeUntilNextPrayer() {
             }
         }
     }
+    
+
 
     if (nextPrayerTimeInSeconds !== null) {
         timeUntilNextPrayer = nextPrayerTimeInSeconds - currentTimeInSeconds;
         const hoursUntilNextPrayer = String(Math.floor(timeUntilNextPrayer / 3600)).padStart(2, '0');
         const minutesUntilNextPrayer = String(Math.floor((timeUntilNextPrayer % 3600) / 60)).padStart(2, '0');
         const secondsUntilNextPrayer = String(timeUntilNextPrayer % 60).padStart(2, '0');
+
+ // Appelle la fonction pour mettre en évidence la prochaine prière
+ highlightNextPrayer(nextPrayerName);
+
+
         if (timeUntilNextPrayer <= 0) {
 
-            const timeUntilPrayerElement = document.getElementById('time-until-prayer');
+
             timeUntilPrayerElement.innerHTML = `
-            <p class="title-until-prayer">La prière <span id="next-prayer">${nextPrayerName}</span> est MAINTENANT.</p>`;
+            <p class="title-until-prayer blinking">La prière du <span id="next-prayer">${nextPrayerName}</span> est MAINTENANT.</p>`;
 
             // Ajouter la classe "blinking" pour faire clignoter le message
             timeUntilPrayerElement.classList.add('blinking');
@@ -76,13 +84,26 @@ export function calculateTimeUntilNextPrayer() {
 
 
         }
+
         document.getElementById('time-until-prayer').innerHTML = `
-            <p class="title-until-prayer">La prochaine prière dans <span id="next-prayer"> ${nextPrayerName}</span>  </p>
+            <p class="title-until-prayer">La prière du<span id="next-prayer"> ${nextPrayerName}</span> dans  </p>
             <p class="counter-until-prayer">${hoursUntilNextPrayer} : ${minutesUntilNextPrayer} : ${secondsUntilNextPrayer}</p>
         `;
     } else {
         document.getElementById('time-until-prayer').innerHTML = `
-            <h4>Toutes les prières pour aujourd'hui ont été effectuées.</h4>
+            <h4>Toutes les prières pour aujourd'hui ont été effectuées : <span>${now.toLocaleDateString()} </span> </h4>
         `;
     }
+}
+
+function highlightNextPrayer(nextPrayerName) {
+    const prayerTimesContainer = document.getElementById('prayer-times');
+    console.log("next salat : ", nextPrayerName);
+    Array.from(prayerTimesContainer.children).forEach(prayerElement => {
+        if (prayerElement.id === `prayer-${nextPrayerName}`) {
+            prayerElement.classList.add('highlight-next-prayer');
+        } else {
+            prayerElement.classList.remove('highlight-next-prayer');
+        }
+    });
 }

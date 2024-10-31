@@ -2,50 +2,70 @@ import { calculateTimeUntilNextPrayer, getPrayerTimes } from './prayer.js';
 
 import { Geolocation } from '@capacitor/geolocation';
 import { getCity } from './location.js';
+import { getQiblah } from './qiblah.js'
 import { getWeather } from './weather.js';
 import { updateClock } from './horloge.js';
+import { updateDates } from './hijri-date.js';
 
-// Géolocalisation au chargement de l'application en permettant au fonction d'utiliser la position 
 document.addEventListener('DOMContentLoaded', async () => {
 
+    try {
+        const position = await Geolocation.getCurrentPosition();
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
 
-    const position = await Geolocation.getCurrentPosition();
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
+        await Promise.all([
+            getPrayerTimes(latitude, longitude),
+            getCity(latitude, longitude),
+            getWeather(latitude, longitude),
+            getQiblah(latitude,longitude)
+        ]);
 
-console.log("position",latitude,longitude);
-    getPrayerTimes(latitude, longitude);
-    getCity(latitude, longitude);
-    getWeather(latitude, longitude);
-    calculateTimeUntilNextPrayer();
-    // navigator.geolocation.getCurrentPosition(position => {
-    //     const latitude = position.coords.latitude;
-    //     const longitude = position.coords.longitude;
 
-    //     getPrayerTimes(latitude, longitude);
-    //     getCity(latitude, longitude);
-    //     getWeather(latitude, longitude);
-    //     calculateTimeUntilNextPrayer()
-        
-    // }, error => {
-    //     console.error('Erreur lors de la récupération de la position géographique:', error);
-    // });
-    
-    requestAnimationFrame(updateClock);
+        calculateTimeUntilNextPrayer()
+        updateDates()
+        updateClock()
+    } catch (error) {
+        console.error('Erreur lors de la récupération de la position géographique:', error);
+    }
+
+
 });
 
 
-// const getCurrentPosition = async () => {
-//     try {
-//         const coordinates = await Geolocation.getCurrentPosition();
-//         console.log('Current position:', coordinates);
-//     } catch (error) {
-//         console.error('Error getting location:', error);
-//     }
-// };
+// Get both icon elements
+const toggleOff = document.getElementById('toggleOff');
+const toggleOn = document.getElementById('toggleOn');
 
-// getCurrentPosition();
+// Initial state (off)
+let isToggled = false;
 
+// Add click event to toggle between on and off states
+toggleOff.addEventListener('click', () => {
+
+    if (!isToggled) {
+        // Hide the 'off' icon and show the 'on' icon
+        toggleOff.classList.add('hidden');
+        toggleOff.classList.remove('visible');
+        toggleOn.classList.remove('hidden');
+        toggleOn.classList.add('visible');
+        isToggled = true;
+        document.body.classList.toggle('dark-mode');
+
+    }
+});
+
+toggleOn.addEventListener('click', () => {
+    if (isToggled) {
+        // Hide the 'on' icon and show the 'off' icon
+        toggleOn.classList.add('hidden');
+        toggleOn.classList.remove('visible');
+        toggleOff.classList.remove('hidden');
+        toggleOff.classList.add('visible');
+        isToggled = false;
+        document.body.classList.remove('dark-mode')
+    }
+});
 
 // Navigation bottom bar
 
